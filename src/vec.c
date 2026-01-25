@@ -133,6 +133,15 @@ Vec2 divVec2(Vec2 a, Vec2 b)
 }
 
 
+Vec3 crossVec3(Vec3 a, Vec3 b)
+{
+	/* Cross Product
+	 *
+	 */
+    return (Vec3){a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x};
+}
+
+
 double normVec3(Vec3 v)
 {
 	/* Function to calculate the euclidean norm of a 3D vector
@@ -153,3 +162,12 @@ double normVec2(Vec2 v)
     result = sqrt(pow(v.x,2) + pow(v.z,2));
     return result;
 }
+
+double dotVec3(Vec3 a, Vec3 b)
+{
+	/* Dot product
+	 *
+	 */
+	return a.x*b.x + a.y*b.y + a.z*b.z;
+}
+

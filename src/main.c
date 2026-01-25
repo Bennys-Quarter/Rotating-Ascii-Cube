@@ -29,13 +29,14 @@ int main(void)
 	canvas_init(canvas);
 	cube_init(&cube);
 
-
+	//rot.z += M_PI/32;
+	//cube.rotation = rot;
 
 	while (1)
 	{
 		rot.x += M_PI/32;
-		//rot.y += M_PI/32;
-		//rot.z += M_PI/32;
+		rot.y += M_PI/32;
+		rot.z += M_PI/32;
 		cube.rotation = rot;
 
 		rotate(&cube);

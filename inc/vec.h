@@ -23,6 +23,8 @@ Vec3 mulVec3Scalar(Vec3 v, double s);
 Vec2 mulVec2Scalar(Vec2 v, double s);
 Vec3 divVec3(Vec3 a, Vec3 b);
 Vec2 divVec2(Vec2 a, Vec2 b);
+Vec3 crossVec3(Vec3 a, Vec3 b);
+double dotVec3(Vec3 a, Vec3 b);
 double normVec3(Vec3 v);
 double normVec2(Vec2 v);
 

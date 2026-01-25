@@ -5,6 +5,7 @@
  *      Author: benny
  */
 #include "cube.h"
+#include "vec.h"
 
 //#define FACE_ASCII_CH '*'
 #define EDGE_ASCII_CH '.'
@@ -28,8 +29,8 @@ const Cube UNIT_CUBE =
 {
     .vertex =
     {
-    	{-1,1,1},{1,1,1},{-1,-1,1}, {1,-1,1},
-		{-1,-1,-1}, {1,-1,-1}, {1,1,-1}, {-1,1,-1}
+    	{-1,1,1},{1,1,1},{-1,-1,1},{1,-1,1},		// Top vertices
+		{-1,-1,-1}, {1,-1,-1}, {1,1,-1}, {-1,1,-1}	// Bottom vertices
     },
 	.edge =
 	{
@@ -65,21 +66,20 @@ void rotate(Cube* cnv)
 	/* Rotation matrix for 3D objects
 	 * x -> yaw , y -> pitch, z -> roll
 	 */
+	double cx = cos(cnv->rotation.x);
+	double sx = sin(cnv->rotation.x);
+	double cy = cos(cnv->rotation.y);
+	double sy = sin(cnv->rotation.y);
+	double cz = cos(cnv->rotation.z);
+	double sz = sin(cnv->rotation.z);
 
 	for (int i=0; i<8; i++)
 	{
-		cnv->vertex[i].z =
-			UNIT_CUBE.vertex[i].z * (-sin(cnv->rotation.y) ) +
-			UNIT_CUBE.vertex[i].y * ( cos(cnv->rotation.y) * sin(cnv->rotation.x)) +
-			UNIT_CUBE.vertex[i].x * ( cos(cnv->rotation.y) * cos(cnv->rotation.x));
-		cnv->vertex[i].y =
-			UNIT_CUBE.vertex[i].z * (cos(cnv->rotation.z) * cos(cnv->rotation.y)) +
-			UNIT_CUBE.vertex[i].y * (cos(cnv->rotation.z) * sin(cnv->rotation.y) * sin(cnv->rotation.x) - sin(cnv->rotation.z) * cos(cnv->rotation.x)) +
-			UNIT_CUBE.vertex[i].x * (cos(cnv->rotation.z) * sin(cnv->rotation.y) * cos(cnv->rotation.z) + sin(cnv->rotation.z) * sin(cnv->rotation.x));
-		cnv->vertex[i].x =
-			UNIT_CUBE.vertex[i].z * (sin(cnv->rotation.z) * cos(cnv->rotation.y) ) +
-			UNIT_CUBE.vertex[i].y * (sin(cnv->rotation.z) * sin(cnv->rotation.y) * sin(cnv->rotation.z) + cos(cnv->rotation.z) * cos(cnv->rotation.x) ) +
-			UNIT_CUBE.vertex[i].x * (sin(cnv->rotation.z) * sin(cnv->rotation.y) * cos(cnv->rotation.x) - cos(cnv->rotation.z) * sin(cnv->rotation.x));
+
+		cnv->vertex[i].x = UNIT_CUBE.vertex[i].x*(cy*cz) + UNIT_CUBE.vertex[i].y*(cy*sz) - UNIT_CUBE.vertex[i].z*sy;
+		cnv->vertex[i].y = UNIT_CUBE.vertex[i].x*(sx*sy*cz - cx*sz) + UNIT_CUBE.vertex[i].y*(sx*sy*sz + cx*cz) + UNIT_CUBE.vertex[i].z*(sx*cy);
+		cnv->vertex[i].z = UNIT_CUBE.vertex[i].x*(cx*sy*cz + sx*sz) + UNIT_CUBE.vertex[i].y*(cx*sy*sz - sx*cz) + UNIT_CUBE.vertex[i].z*(cx*cy);
+
 	}
 }
 
@@ -92,17 +92,17 @@ void draw_cube(String* cnv, Cube* c)
 
 	AsciiOperation *ascii_fun = NULL;
 
-	//const int n_vert = 8;
-	//const int n_edges = 30;
-	const int n_faces = 12;
+	const int n_vert = 8;
+	const int n_edges = 30;
+	//const int n_faces = 12;
 
 	set_ascii_operation(SEQUENCIAL, &ascii_fun);
 
-	draw_faces(cnv, c, ascii_fun, n_faces);
+	//draw_faces(cnv, c, ascii_fun, n_faces);
 
-	//draw_edges(cnv, c, EDGE_ASCII_CH, n_edges);
+	draw_edges(cnv, c, EDGE_ASCII_CH, n_edges);
 
-	//draw_verticies(cnv, c, VRTX_ASCII_CH, n_vert);
+	draw_verticies(cnv, c, VRTX_ASCII_CH, n_vert);
 
 }
 
@@ -160,14 +160,39 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 
 	int sruface_count = 0;
 
-	for (int n = 0; n < n_faces; n++)
+	int test = 0; // TODO: remove test
+
+	for (int n = test; n <= test; n++) // TODO: remove test and replace by n_faces
 	{
-		 if (n % 2 == 1) { sruface_count++; }
+		if (n % 2 == 1) { sruface_count++; }
 
 		Vec3 face = UNIT_CUBE.faces[n];
-		Vec2 A = projection_2d(c->vertex[(int)face.x], 50, 30);
-		Vec2 B = projection_2d(c->vertex[(int)face.y], 50, 30);
-		Vec2 C = projection_2d(c->vertex[(int)face.z], 50, 30);
+
+		Vec3 V0 = c->vertex[(int)face.x];
+		Vec3 V1 = c->vertex[(int)face.y];
+		Vec3 V2 = c->vertex[(int)face.z];
+
+		//Face 1.1 Front
+//		Vec3 V0 = {-1, -1, -1};
+//		Vec3 V1 = {1, -1, -1};
+//		Vec3 V2 = {-1, 1, -1};
+
+		/*Back face culling */
+		Vec3 edge1 = subVec3(V0,V1);
+		Vec3 edge2 = subVec3(V2,V1);
+		Vec3 normal = crossVec3(edge1, edge2);
+
+		Vec3 cam_pos = {0.0, 4.0, 0.0};
+
+		double dp = dotVec3(normal, cam_pos);
+
+		if (dp < 0){continue;} // face is not pointing to camera -> skip
+
+
+		Vec2 A = projection_2d(V0, 50, 30);
+		Vec2 B = projection_2d(V1, 50, 30);
+		Vec2 C = projection_2d(V2, 50, 30);
+
 
 
 		Vec2 tmp = {0.0, 0.0};
@@ -198,7 +223,6 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 	    	M.z = B.z;
 	    }
 
-		// TODO: Check if face is facing the camera (Back - Face Culling)
 
 		/* calc slope for top and bottom triangel */
 		double k_AB = A.x == B.x ? 0.0 : (A.z - B.z) / (A.x - B.x);
@@ -260,6 +284,10 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 			}
 
 		}
+
+		cnv[(int)A.z].str[(int)A.x] = 'X';
+		cnv[(int)B.z].str[(int)B.x] = 'X';
+		cnv[(int)C.z].str[(int)C.x] = 'X';
 
 	}
 
