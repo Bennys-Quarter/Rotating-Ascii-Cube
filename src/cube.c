@@ -11,6 +11,11 @@
 #define EDGE_ASCII_CH '.'
 #define VRTX_ASCII_CH 'X'
 
+#define EPSILON 1e-3
+
+#define CULL_LIM 3.2
+#define CAMERA_POS {0.0, 0.0, 2.0}
+
 //////////////////////////////////////////////////////////////////////////
 /* ASCII OPERATIONS DECLARATION */
 
@@ -41,8 +46,8 @@ const Cube UNIT_CUBE =
 	},
 	.faces =
 	{
-		{4,5,7}, {5,6,7},{0,2,3}, {0,1,3},
-		{2,3,4}, {3,4,5},{0,2,4}, {0,4,7},
+		{5,4,7}, {6,5,7},{0,2,3}, {1,0,3},
+		{3,2,4}, {3,4,5},{2,0,4}, {4,0,7},
 		{0,1,7}, {1,6,7},{1,3,5}, {1,5,6}
 	}
 };
@@ -94,15 +99,15 @@ void draw_cube(String* cnv, Cube* c)
 
 	const int n_vert = 8;
 	const int n_edges = 30;
-	//const int n_faces = 12;
+	const int n_faces = 12;
 
 	set_ascii_operation(SEQUENCIAL, &ascii_fun);
 
-	//draw_faces(cnv, c, ascii_fun, n_faces);
+	draw_faces(cnv, c, ascii_fun, n_faces);
 
-	draw_edges(cnv, c, EDGE_ASCII_CH, n_edges);
+	//draw_edges(cnv, c, EDGE_ASCII_CH, n_edges);
 
-	draw_verticies(cnv, c, VRTX_ASCII_CH, n_vert);
+	//draw_verticies(cnv, c, VRTX_ASCII_CH, n_vert);
 
 }
 
@@ -160,11 +165,9 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 
 	int sruface_count = 0;
 
-	int test = 0; // TODO: remove test
-
-	for (int n = test; n <= test; n++) // TODO: remove test and replace by n_faces
+	for (int n = 0; n < n_faces; n++)
 	{
-		if (n % 2 == 1) { sruface_count++; }
+		if ((n+1) % 2 == 1) { sruface_count++; }
 
 		Vec3 face = UNIT_CUBE.faces[n];
 
@@ -172,27 +175,24 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 		Vec3 V1 = c->vertex[(int)face.y];
 		Vec3 V2 = c->vertex[(int)face.z];
 
-		//Face 1.1 Front
-//		Vec3 V0 = {-1, -1, -1};
-//		Vec3 V1 = {1, -1, -1};
-//		Vec3 V2 = {-1, 1, -1};
-
 		/*Back face culling */
 		Vec3 edge1 = subVec3(V0,V1);
 		Vec3 edge2 = subVec3(V2,V1);
 		Vec3 normal = crossVec3(edge1, edge2);
+		normal.x = (fabs(normal.x) < EPSILON) ? 0.0 : normal.x * (-1.0);
+		normal.y = (fabs(normal.y) < EPSILON) ? 0.0 : normal.y;
+		normal.z = (fabs(normal.z) < EPSILON) ? 0.0 : normal.z;
 
-		Vec3 cam_pos = {0.0, 4.0, 0.0};
+		Vec3 cam_pos = CAMERA_POS;
 
 		double dp = dotVec3(normal, cam_pos);
 
-		if (dp < 0){continue;} // face is not pointing to camera -> skip
+		if (dp <= CULL_LIM){continue;} // face is not ointing to camera -> skip
 
 
 		Vec2 A = projection_2d(V0, 50, 30);
 		Vec2 B = projection_2d(V1, 50, 30);
 		Vec2 C = projection_2d(V2, 50, 30);
-
 
 
 		Vec2 tmp = {0.0, 0.0};
@@ -255,7 +255,7 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 
 			for(int x = xStart; x<=xEnd; x++)
 			{
-				cnv[(int)z].str[(int)x] = (*ascii_fun)(sruface_count);
+				cnv[(int)z].str[(int)x] = (*ascii_fun)(sruface_count-1);
 			}
 		}
 
@@ -280,14 +280,11 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 
 			for(int x = xStart; x<=xEnd; x++)
 			{
-				cnv[(int)z].str[(int)x] = (*ascii_fun)(sruface_count);
+				cnv[(int)z].str[(int)x] = (*ascii_fun)(sruface_count-1);
 			}
 
 		}
 
-		cnv[(int)A.z].str[(int)A.x] = 'X';
-		cnv[(int)B.z].str[(int)B.x] = 'X';
-		cnv[(int)C.z].str[(int)C.x] = 'X';
 
 	}
 

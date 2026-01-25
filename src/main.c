@@ -29,8 +29,6 @@ int main(void)
 	canvas_init(canvas);
 	cube_init(&cube);
 
-	//rot.z += M_PI/32;
-	//cube.rotation = rot;
 
 	while (1)
 	{
@@ -42,7 +40,7 @@ int main(void)
 		rotate(&cube);
 
 		update(canvas, &cube);
-		sleep(1); //usleep(33000); // ~30 fps MAX
+		usleep(200000); //usleep(33000); // ~30 fps MAX
 		canvas_init(canvas);
 
 	}
