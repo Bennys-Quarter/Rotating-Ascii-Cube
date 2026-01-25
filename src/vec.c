@@ -4,7 +4,7 @@
  *  Created on: Nov 6, 2025
  *      Author: benny
  */
-
+#include "math.h"
 
 typedef struct { double x; double z; } Vec2;
 typedef struct { double x; double y; double z; } Vec3;

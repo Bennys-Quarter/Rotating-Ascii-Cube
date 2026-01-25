@@ -6,6 +6,24 @@
  */
 #include "cube.h"
 
+//#define FACE_ASCII_CH '*'
+#define EDGE_ASCII_CH '.'
+#define VRTX_ASCII_CH 'X'
+
+//////////////////////////////////////////////////////////////////////////
+/* ASCII OPERATIONS DECLARATION */
+
+enum AsciiOperations
+{
+	SEQUENCIAL = 1,
+};
+
+static char get_ascii_symbol(int symbol);
+
+static void set_ascii_operation(int operation, AsciiOperation **func_ptr);
+
+//////////////////////////////////////////////////////////////////////////
+
 const Cube UNIT_CUBE =
 {
     .vertex =
@@ -66,23 +84,25 @@ void rotate(Cube* cnv)
 }
 
 
-void draw_cube(String* cnv, Cube* c, char ch)
+void draw_cube(String* cnv, Cube* c)
 {
 	/* Update the chars in the canvas according to cube coordinates
 	 *
 	 */
 
-	const int n_vert = 8;
-	const int n_edges = 30;
+	AsciiOperation *ascii_fun = NULL;
+
+	//const int n_vert = 8;
+	//const int n_edges = 30;
 	const int n_faces = 12;
 
+	set_ascii_operation(SEQUENCIAL, &ascii_fun);
 
-	draw_faces(cnv, c, ch, n_faces);
+	draw_faces(cnv, c, ascii_fun, n_faces);
 
-	draw_edges(cnv, c, '.', n_edges);
+	//draw_edges(cnv, c, EDGE_ASCII_CH, n_edges);
 
-	draw_verticies(cnv, c, 'X', n_vert);
-
+	//draw_verticies(cnv, c, VRTX_ASCII_CH, n_vert);
 
 }
 
@@ -100,7 +120,7 @@ void draw_verticies(String *cnv, Cube* c, char ch, int n_vert)
 }
 
 
-void draw_edges(String *cnv, Cube* c, char ch, int n_edges)
+void draw_edges(String *cnv, Cube* c, char ch , int n_edges)
 {
 	/* draw edges of cube but not diagonal polygon lines
 	 *
@@ -132,14 +152,17 @@ void draw_edges(String *cnv, Cube* c, char ch, int n_edges)
 }
 
 
-void draw_faces(String *cnv, Cube* c, char ch, int n_faces)
+void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 {
 	/* Scanline Triangle Fill
 	 *
 	 */
 
+	int sruface_count = 0;
+
 	for (int n = 0; n < n_faces; n++)
 	{
+		 if (n % 2 == 1) { sruface_count++; }
 
 		Vec3 face = UNIT_CUBE.faces[n];
 		Vec2 A = projection_2d(c->vertex[(int)face.x], 50, 30);
@@ -208,7 +231,7 @@ void draw_faces(String *cnv, Cube* c, char ch, int n_faces)
 
 			for(int x = xStart; x<=xEnd; x++)
 			{
-				cnv[(int)z].str[(int)x] = ch;
+				cnv[(int)z].str[(int)x] = (*ascii_fun)(sruface_count);
 			}
 		}
 
@@ -233,12 +256,47 @@ void draw_faces(String *cnv, Cube* c, char ch, int n_faces)
 
 			for(int x = xStart; x<=xEnd; x++)
 			{
-				cnv[(int)z].str[(int)x] = ch;
+				cnv[(int)z].str[(int)x] = (*ascii_fun)(sruface_count);
 			}
 
 		}
 
 	}
 
+}
+
+//////////////////////////////////////////////////////////////////////////
+/* ASCII OPERATIONS FUNCTIONS */
+
+static char get_ascii_symbol(int symbol)
+{
+	switch(symbol)
+	{
+		case 0:
+			return '$';
+		case 1:
+			return '-';
+		case 2:
+			return '@';
+		case 3:
+			return '=';
+		case 4:
+			return '*';
+		case 5:
+			return '%';
+		default:
+			return '*';
+	}
+}
+
+
+static void set_ascii_operation(int operation, AsciiOperation **func_ptr)
+{
+	switch(operation)
+	{
+		case SEQUENCIAL:
+			*func_ptr = get_ascii_symbol;
+			break;
+	}
 }
 

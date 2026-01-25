@@ -13,6 +13,8 @@
 #include "c_graphics.h"
 #include <math.h>
 
+typedef char AsciiOperation(int);
+
 typedef struct
 {
 	Vec3 vertex[8];
@@ -29,9 +31,9 @@ typedef struct
 
 void cube_init(Cube *c);
 void rotate(Cube* cnv);
-void draw_cube(String* cnv, Cube* c, char ch);
+void draw_cube(String* cnv, Cube* c);
 void draw_verticies(String *cnv, Cube* c, char ch, int n_vert);
 void draw_edges(String *cnv, Cube* c, char ch, int n_edges);
-void draw_faces(String *cnv, Cube* c, char ch, int n_faces);
+void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces);
 
 #endif /* INC_CUBE_H_ */

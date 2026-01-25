@@ -29,17 +29,19 @@ int main(void)
 	canvas_init(canvas);
 	cube_init(&cube);
 
+
+
 	while (1)
 	{
-		//rot.x += M_PI/256;
-		//rot.y += M_PI/256;
-		rot.z += M_PI/256;
+		rot.x += M_PI/32;
+		//rot.y += M_PI/32;
+		//rot.z += M_PI/32;
 		cube.rotation = rot;
 
 		rotate(&cube);
 
 		update(canvas, &cube);
-		usleep(33000); // ~30 fps MAX
+		sleep(1); //usleep(33000); // ~30 fps MAX
 		canvas_init(canvas);
 
 	}
@@ -53,7 +55,7 @@ void update(String* canvas, Cube *cube)
 {
 	cls();
 
-	draw_cube(canvas, cube, '*');
+	draw_cube(canvas, cube);
 
 	for (int i= 0; i<V_MAX; i++)
 	{
