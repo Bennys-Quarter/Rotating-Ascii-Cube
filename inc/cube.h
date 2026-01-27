@@ -23,12 +23,6 @@ typedef struct
 	Vec3 rotation;
 }Cube;
 
-//	 ^ z
-//   |
-// y .-- > x
-// y is the depth buffer
-
-
 void cube_init(Cube *c);
 void rotate(Cube* cnv);
 void draw_cube(String* cnv, Cube* c);

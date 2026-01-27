@@ -8,10 +8,10 @@
 #include "canvas.h"
 
 
-#define ROT_V 0.01
+#define ROT_STEP 32
 
 
-void update(String* canvas, Cube *cube);
+static void update(String* canvas, Cube *cube);
 
 
 int main(void)
@@ -32,17 +32,16 @@ int main(void)
 
 	while (1)
 	{
-		rot.x += M_PI/32;
-		rot.y += M_PI/32;
-		rot.z += M_PI/32;
+		rot.x += M_PI/ROT_STEP;
+		rot.y += M_PI/ROT_STEP;
+		rot.z += M_PI/ROT_STEP;
 		cube.rotation = rot;
 
 		rotate(&cube);
 
 		update(canvas, &cube);
-		usleep(200000); //usleep(33000); // ~30 fps MAX
+		usleep(200000);
 		canvas_init(canvas);
-
 	}
 
 	free_canvas(canvas);
@@ -50,7 +49,7 @@ int main(void)
 }
 
 
-void update(String* canvas, Cube *cube)
+static void update(String* canvas, Cube *cube)
 {
 	cls();
 

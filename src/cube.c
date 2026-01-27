@@ -7,7 +7,6 @@
 #include "cube.h"
 #include "vec.h"
 
-//#define FACE_ASCII_CH '*'
 #define EDGE_ASCII_CH '.'
 #define VRTX_ASCII_CH 'X'
 
@@ -53,6 +52,14 @@ const Cube UNIT_CUBE =
 };
 
 
+/**
+ * @fn void cube_init(Cube*)
+ * @brief initializes the cube to unit cube and zero rotation
+ *
+ * @pre
+ * @post
+ * @param c
+ */
 void cube_init(Cube *c)
 {
 	for (int i=0; i<8; i++)
@@ -66,11 +73,17 @@ void cube_init(Cube *c)
 }
 
 
+/**
+ * @fn void rotate(Cube*)
+ * @brief rotatest the cube according to its rotation vector
+ *
+ * @pre
+ * @post
+ * @param cnv
+ */
 void rotate(Cube* cnv)
 {
-	/* Rotation matrix for 3D objects
-	 * x -> yaw , y -> pitch, z -> roll
-	 */
+
 	double cx = cos(cnv->rotation.x);
 	double sx = sin(cnv->rotation.x);
 	double cy = cos(cnv->rotation.y);
@@ -89,11 +102,17 @@ void rotate(Cube* cnv)
 }
 
 
+/**
+ * @fn void draw_cube(String*, Cube*)
+ * @brief Draws the cube on the canvas
+ *
+ * @pre
+ * @post
+ * @param cnv
+ * @param c
+ */
 void draw_cube(String* cnv, Cube* c)
 {
-	/* Update the chars in the canvas according to cube coordinates
-	 *
-	 */
 
 	AsciiOperation *ascii_fun = NULL;
 
@@ -112,6 +131,17 @@ void draw_cube(String* cnv, Cube* c)
 }
 
 
+/**
+ * @fn void draw_verticies(String*, Cube*, char, int)
+ * @brief Draws the vertices of the cube on the canvas
+ *
+ * @pre
+ * @post
+ * @param cnv
+ * @param c
+ * @param ch
+ * @param n_vert
+ */
 void draw_verticies(String *cnv, Cube* c, char ch, int n_vert)
 {
 	Vec2 coo_v[n_vert];
@@ -125,6 +155,17 @@ void draw_verticies(String *cnv, Cube* c, char ch, int n_vert)
 }
 
 
+/**
+ * @fn void draw_edges(String*, Cube*, char, int)
+ * @brief Draws the edges of the cube on the canvas
+ *
+ * @pre
+ * @post
+ * @param cnv
+ * @param c
+ * @param ch
+ * @param n_edges
+ */
 void draw_edges(String *cnv, Cube* c, char ch , int n_edges)
 {
 	/* draw edges of cube but not diagonal polygon lines
@@ -157,11 +198,23 @@ void draw_edges(String *cnv, Cube* c, char ch , int n_edges)
 }
 
 
+/**
+ * @fn void draw_faces(String*, Cube*, AsciiOperation*, int)
+ * @brief Draws the faces of the cube on the canvas
+ *
+ *	This function uses a scanline triangle fill algorithm to rasterize each face of the cube.
+ *	It first performs back-face culling to skip faces that are not visible from the camera's perspective.
+ *	CULL_LIM defines the threshold for culling based on the dot product between the face normal and camera position.
+ *
+ * @pre
+ * @post
+ * @param cnv
+ * @param c
+ * @param ascii_fun
+ * @param n_faces
+ */
 void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 {
-	/* Scanline Triangle Fill
-	 *
-	 */
 
 	int sruface_count = 0;
 
@@ -187,7 +240,7 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 
 		double dp = dotVec3(normal, cam_pos);
 
-		if (dp <= CULL_LIM){continue;} // face is not ointing to camera -> skip
+		if (dp <= CULL_LIM){continue;} // face is not pointing to camera -> skip
 
 
 		Vec2 A = projection_2d(V0, 50, 30);
@@ -223,15 +276,11 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 	    	M.z = B.z;
 	    }
 
-
 		/* calc slope for top and bottom triangel */
 		double k_AB = A.x == B.x ? 0.0 : (A.z - B.z) / (A.x - B.x);
 		double k_AM = A.x == M.x ? 0.0 : (A.z - M.z) / (A.x - M.x);
 		double k_MC = M.x == C.x ? 0.0 : (M.z - C.z) / (M.x - C.x);
 		double k_BC = B.x == C.x ? 0.0 : (B.z - C.z) / (B.x - C.x);
-
-
-		// TODO: Find iteration boundaries
 
 		double x_top_lim_1 = M.x;
 		double x_top_lim_2 = M.x;
@@ -284,7 +333,6 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 			}
 
 		}
-
 
 	}
 
