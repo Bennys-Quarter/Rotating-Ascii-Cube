@@ -1,0 +1,44 @@
+digraph "main"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="main",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="canvas_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$canvas_8c.html#a50c02b7956c149ffb65ad42787805c42",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="new_str",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$canvas_8c.html#a325ec823b351319ad74144a034fa27b4",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="str_len",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$canvas_8c.html#a773ec1f70044b08cfb00da27d73d26ba",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cube_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cube_8c.html#a8acf05693681e6e302efff07880b818d",tooltip="initializes the cube to unit cube and zero rotation"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="free_canvas",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$canvas_8c.html#ab44e89bdb17c502898b0114d266b1bf2",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="free_string",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$canvas_8c.html#abcdb0bf32069cda2759c3e7608df47f3",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="rotate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cube_8c.html#a75b60d440ba3f9b5223c8dcca2da715a",tooltip="rotatest the cube according to its rotation vector"];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$main_8c.html#a25e2e24864b6bbc257497872a3e5fce1",tooltip=" "];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cls",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$canvas_8c.html#ae5f15506155750b79c8ceb1d9e86d34c",tooltip=" "];
+  Node9 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="draw",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$canvas_8c.html#af3bc40708e4a30bdbf34d03e0ac22911",tooltip=" "];
+  Node9 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="draw_cube",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cube_8c.html#ad37724abefa6ad317eef70eb5a74983a",tooltip="Draws the cube on the canvas."];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="draw_faces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cube_8c.html#ac31da3646015ab2f1492ccf881ca5885",tooltip="Draws the faces of the cube on the canvas."];
+  Node13 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="crossVec3",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$vec_8c.html#a4567e1f9afdb7d30213b9385444dae32",tooltip="Cross product of two 3D vectors."];
+  Node13 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="dotVec3",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$vec_8c.html#a2f30c950872bac3de9913e8ddf58398a",tooltip="Dot product of two 3D vectors."];
+  Node13 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="projection_2d",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$c__graphics_8c.html#a45e5479413a0961fc1999245720edced",tooltip=" "];
+  Node13 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="subVec3",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$vec_8c.html#afc4001d91278488c52c0e899d51be059",tooltip="subtracts two 3D vectors element wise"];
+  Node12 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="set_ascii_operation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cube_8c.html#aca53a0945414cae1c8654c7545b95daa",tooltip=" "];
+  Node18 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="get_ascii_symbol",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cube_8c.html#a54d48e376c35bfcf0476d97ddeb81cce",tooltip=" "];
+}
