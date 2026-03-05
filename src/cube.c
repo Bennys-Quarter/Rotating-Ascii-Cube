@@ -122,11 +122,11 @@ void draw_cube(String* cnv, Cube* c)
 
 	set_ascii_operation(SEQUENCIAL, &ascii_fun);
 
-	draw_faces(cnv, c, ascii_fun, n_faces);
+	//draw_faces(cnv, c, ascii_fun, n_faces);
 
-	//draw_edges(cnv, c, EDGE_ASCII_CH, n_edges);
+	draw_edges(cnv, c, EDGE_ASCII_CH, n_edges);
 
-	//draw_verticies(cnv, c, VRTX_ASCII_CH, n_vert);
+	draw_verticies(cnv, c, VRTX_ASCII_CH, n_vert);
 
 }
 
