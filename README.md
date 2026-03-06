@@ -18,6 +18,6 @@ The cube supports two modes which can be changed in function `void draw_cube(Str
 
 ![](./doc/figures/animation.gif)
 
-### Cube with Edges drawn
+### Cube with Faces drawn
 
 ![](./doc/figures/cube_faces.gif)
