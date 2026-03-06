@@ -338,6 +338,8 @@ void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces)
 
 }
 
+
+
 //////////////////////////////////////////////////////////////////////////
 /* ASCII OPERATIONS FUNCTIONS */
 
@@ -372,4 +374,7 @@ static void set_ascii_operation(int operation, AsciiOperation **func_ptr)
 			break;
 	}
 }
+
+
+
 

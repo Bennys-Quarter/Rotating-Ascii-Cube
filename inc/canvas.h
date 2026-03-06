@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 typedef struct
 {
@@ -21,6 +22,7 @@ typedef struct
 
 void cls(void);
 void draw(String str);
+void draw_to_file(String str, FILE *fp);
 void canvas_init(String* cnv);
 void free_canvas(String *cnv);
 size_t str_len(const char* str);

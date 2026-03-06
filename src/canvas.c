@@ -62,6 +62,17 @@ void draw(String str)
 }
 
 
+void draw_to_file(String str, FILE *fp)
+{
+	/* draw a string to a file */
+	for (size_t i=0; i<str.len; i++)
+	{
+		fprintf(fp, "%c", str.str[i]);
+	}
+	fprintf(fp, "\n");
+}
+
+
 void free_canvas(String *cnv)
 {
 	for (int i=0; i<V_MAX; i++)
