@@ -26,7 +26,7 @@ typedef struct
 void cube_init(Cube *c);
 void rotate(Cube* cnv);
 void draw_cube(String* cnv, Cube* c);
-void draw_verticies(String *cnv, Cube* c, char ch, int n_vert);
+void draw_vertices(String *cnv, Cube* c, char ch, int n_vert);
 void draw_edges(String *cnv, Cube* c, char ch, int n_edges);
 void draw_faces(String *cnv, Cube* c, AsciiOperation *ascii_fun, int n_faces);
 

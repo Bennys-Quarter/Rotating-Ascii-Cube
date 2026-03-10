@@ -126,13 +126,13 @@ void draw_cube(String* cnv, Cube* c)
 
 	draw_edges(cnv, c, EDGE_ASCII_CH, n_edges);
 
-	draw_verticies(cnv, c, VRTX_ASCII_CH, n_vert);
+	draw_vertices(cnv, c, VRTX_ASCII_CH, n_vert);
 
 }
 
 
 /**
- * @fn void draw_verticies(String*, Cube*, char, int)
+ * @fn void draw_vertices(String*, Cube*, char, int)
  * @brief Draws the vertices of the cube on the canvas
  *
  * @pre
@@ -142,7 +142,7 @@ void draw_cube(String* cnv, Cube* c)
  * @param ch
  * @param n_vert
  */
-void draw_verticies(String *cnv, Cube* c, char ch, int n_vert)
+void draw_vertices(String *cnv, Cube* c, char ch, int n_vert)
 {
 	Vec2 coo_v[n_vert];
 
@@ -168,9 +168,7 @@ void draw_verticies(String *cnv, Cube* c, char ch, int n_vert)
  */
 void draw_edges(String *cnv, Cube* c, char ch , int n_edges)
 {
-	/* draw edges of cube but not diagonal polygon lines
-	 *
-	 */
+
 	for (int j = 0; j<12;j++)
 	{
 

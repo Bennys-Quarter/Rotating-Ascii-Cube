@@ -6,7 +6,7 @@ This project is a console application inspired by the [Spinning Cube](https://yo
 
 A complete documentation can be found at
 
-...
+https://www.bennys-blog.dev
 
 ## Animation
 

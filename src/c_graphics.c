@@ -10,7 +10,7 @@
 Vec2 projection_2d(Vec3 vert, int scr_width, int scr_height)
 {
 	/* Calculates the 3D to 2D projected coordinates
-	 * with the origin in the center
+	 * with the origin in the center screen
 	 */
 
 	double y_m = 2*(1.0/0.3333333);
